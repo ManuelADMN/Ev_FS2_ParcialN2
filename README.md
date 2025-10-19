@@ -1,7 +1,7 @@
 # Denoise – Bluetech AI (React + Webpack)
 
 Aplicación SPA en **React** para **Denoise** (Ciencia de Datos e IA, foco Bluetech). Incluye:
-- Páginas: Home, Nosotros (DenoiseSH, DenoQ, Oddie), Blogs (>=2), Contacto.
+- Páginas: Home, Nosotros (DenoiseSH, DenoQ, Oddie), Blogs (>=2), Contacto, Tests (Verificación de test's aplicados).
 - Autenticación (Login/Logout) y **CRUD de usuarios** con **roles** (Administrador, Vendedor, Cliente).
 - **Validaciones**: RUN (módulo 11) y **correos solo** `@denoise.*` o `@duocuc.*`.
 - Diseño **responsivo** (Bootstrap) y componentes estilo Atomic Design.
