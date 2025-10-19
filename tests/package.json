@@ -1,0 +1,14 @@
+{
+  "name": "denoise-tests",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "test": "karma start --single-run"
+  },
+  "devDependencies": {
+    "jasmine-core": "^5.2.0",
+    "karma": "^6.4.3",
+    "karma-chrome-launcher": "^3.2.0",
+    "karma-jasmine": "^5.1.0"
+  }
+}

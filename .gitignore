@@ -1,0 +1,19 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build outputs
+bin/
+obj/
+[Bb]uild/
+[Bb]uilds/
+*.log
+
+# Packages (restaurables)
+packages/
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
