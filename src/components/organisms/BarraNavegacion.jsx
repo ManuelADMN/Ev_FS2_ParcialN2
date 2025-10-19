@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useAuth, esAdmin } from "../../context/AuthContext";
+import { useAuth, esAdmin } from "../../context/AuthContext"; //
 import Boton from "../atoms/Boton";
 
 export default function BarraNavegacion(){
-  const { usuario, cerrarSesion } = useAuth();
+  const { usuario, cerrarSesion } = useAuth(); //
   return (
     <nav className="navbar navbar-expand-md navbar-light bg-white border-bottom mb-4">
       <div className="container">
@@ -18,8 +18,15 @@ export default function BarraNavegacion(){
 
             <li className="nav-item"><NavLink className="nav-link" to="/blogs">Blogs</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link" to="/contacto">Contacto</NavLink></li>
-            {usuario && esAdmin(usuario) ? (
-              <li className="nav-item"><NavLink className="nav-link" to="/admin">Admin</NavLink></li>
+            
+            {/* 1. Modifica esta sección */}
+            {usuario && esAdmin(usuario) ? ( //
+              <> {/* Envuelve los items en un fragmento <>...</> */}
+                <li className="nav-item"><NavLink className="nav-link" to="/admin">Admin</NavLink></li>
+                
+                {/* 2. Añade el nuevo enlace aquí */}
+                <li className="nav-item"><NavLink className="nav-link" to="/verificar-tests">Verificar Lógica</NavLink></li>
+              </>
             ) : null}
           </ul>
           <div className="d-flex gap-2">

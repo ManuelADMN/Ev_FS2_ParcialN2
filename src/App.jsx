@@ -14,6 +14,9 @@ import Registro from "./components/pages/Registro";
 import AdminPanel from "./components/pages/AdminPanel";
 import RutaPrivadaAdmin from "./routes/RutaPrivada";
 
+// 1. Importa la nueva página que creaste
+import VerificarTests from "./components/pages/VerificarTests";
+
 export default function App() {
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -29,6 +32,12 @@ export default function App() {
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/login" element={<InicioSesion />} />
             <Route path="/registro" element={<Registro />} />
+            
+            {/* 2. Añade la nueva ruta (protegida) */}
+            <Route
+              path="/verificar-tests"
+              element={<RutaPrivadaAdmin><VerificarTests /></RutaPrivadaAdmin>}
+            />
             <Route
               path="/admin"
               element={<RutaPrivadaAdmin><AdminPanel /></RutaPrivadaAdmin>}
