@@ -13,7 +13,9 @@ export default function BarraNavegacion(){
         <div className="collapse navbar-collapse" id="navprincipal">
           <ul className="navbar-nav me-auto mb-2 mb-md-0">
             <li className="nav-item"><NavLink className="nav-link" to="/">Home</NavLink></li>
+            <li className="nav-item"><NavLink className="nav-link" to="/modelos">Modelos</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link" to="/nosotros">Nosotros</NavLink></li>
+
             <li className="nav-item"><NavLink className="nav-link" to="/blogs">Blogs</NavLink></li>
             <li className="nav-item"><NavLink className="nav-link" to="/contacto">Contacto</NavLink></li>
             {usuario && esAdmin(usuario) ? (

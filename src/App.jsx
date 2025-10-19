@@ -4,6 +4,7 @@ import { ProveedorAuth } from "./context/AuthContext";
 import BarraNavegacion from "./components/organisms/BarraNavegacion";
 import PieDePagina from "./components/organisms/PieDePagina";
 import Home from "./components/pages/Home";
+import Modelos from "./components/pages/Modelos";
 import Nosotros from "./components/pages/Nosotros";
 import Blogs from "./components/pages/Blogs";
 import BlogDetalle from "./components/pages/BlogDetalle";
@@ -13,21 +14,29 @@ import Registro from "./components/pages/Registro";
 import AdminPanel from "./components/pages/AdminPanel";
 import RutaPrivadaAdmin from "./routes/RutaPrivada";
 
-export default function App(){
+export default function App() {
   return (
-    <ProveedorAuth>
-      <BarraNavegacion />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/nosotros" element={<Nosotros />} />
-        <Route path="/blogs" element={<Blogs />} />
-        <Route path="/blog/:id" element={<BlogDetalle />} />
-        <Route path="/contacto" element={<Contacto />} />
-        <Route path="/login" element={<InicioSesion />} />
-        <Route path="/registro" element={<Registro />} />
-        <Route path="/admin" element={<RutaPrivadaAdmin><AdminPanel /></RutaPrivadaAdmin>} />
-      </Routes>
-      <PieDePagina />
-    </ProveedorAuth>
+    <div className="d-flex flex-column min-vh-100">
+      <ProveedorAuth>
+        <BarraNavegacion />
+        <main className="flex-fill">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/nosotros" element={<Nosotros />} />
+            <Route path="/modelos" element={<Modelos />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/blog/:id" element={<BlogDetalle />} />
+            <Route path="/contacto" element={<Contacto />} />
+            <Route path="/login" element={<InicioSesion />} />
+            <Route path="/registro" element={<Registro />} />
+            <Route
+              path="/admin"
+              element={<RutaPrivadaAdmin><AdminPanel /></RutaPrivadaAdmin>}
+            />
+          </Routes>
+        </main>
+        <PieDePagina />
+      </ProveedorAuth>
+    </div>
   );
 }
