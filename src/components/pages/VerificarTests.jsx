@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Boton from "../atoms/Boton"; // Átomo existente
-import ListaResultadosTests from "../organisms/ListaResultadosTests"; // Nuevo Organismo
+import ListaResultadosTests from "../organisms/ListaResultadosTest";
 import { validarRUN, validarCorreoDenoiseDuoc, validarContrasena, calcularDV } from "../../utils/validaciones";
 
 // --- Lógica de la Página ---
