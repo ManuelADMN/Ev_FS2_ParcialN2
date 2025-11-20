@@ -17,3 +17,4 @@ packages/
 **/packages/*
 !**/packages/build/
 !**/packages/repositories.config
+node_modules
