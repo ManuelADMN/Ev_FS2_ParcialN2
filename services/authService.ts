@@ -1,70 +1,64 @@
-
 import { User } from '../types/types';
+import { ENDPOINTS } from './apiConfig';
 
-const STORAGE_KEY = 'denoise_users';
 const SESSION_KEY = 'denoise_session';
-
-// Seed data to initialize the app so it's not empty
-const SEED_USERS: User[] = [
-  { id: 1, name: "Guillermo Cerda", email: "admin@denoise.com", password: "123", role: "Admin", status: "Active" },
-  { id: 2, name: "Salmonera Austral", email: "cliente@denoise.com", password: "123", role: "User", status: "Active" },
-  { id: 3, name: "Manuel Diaz", email: "m.diaz@denoise.com", password: "123", role: "Admin", status: "Active" },
-  { id: 4, name: "Diego Aravena", email: "d.aravena@denoise.com", password: "123", role: "User", status: "Suspended" },
-];
+const TOKEN_KEY = 'denoise_token';
 
 export const authService = {
-  // Initialize data if empty
   init: () => {
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED_USERS));
+    // No-op for API based auth
+  },
+
+  login: async (email: string, password: string): Promise<User | null> => {
+    try {
+      const res = await fetch(ENDPOINTS.AUTH.LOGIN, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (!res.ok) {
+        console.error("Login failed:", res.status, res.statusText);
+        return null;
+      }
+
+      const data = await res.json();
+      if (data.token && data.user) {
+        localStorage.setItem(TOKEN_KEY, data.token);
+        localStorage.setItem(SESSION_KEY, JSON.stringify(data.user));
+        return data.user;
+      }
+      return null;
+    } catch (error) {
+      console.error("Login error:", error);
+      return null;
     }
   },
 
-  // --- Auth Methods ---
+  register: async (name: string, email: string, password: string): Promise<User | null> => {
+    try {
+      const res = await fetch(ENDPOINTS.AUTH.REGISTER, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      });
 
-  login: (email: string, password: string): User | null => {
-    authService.init();
-    const users = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    const user = users.find((u: User) => u.email === email && u.password === password);
-    
-    if (user) {
-      // Remove password from session storage for security simulation
-      const { password, ...sessionUser } = user;
-      localStorage.setItem(SESSION_KEY, JSON.stringify(sessionUser));
-      return sessionUser;
+      if (!res.ok) {
+        console.error("Register failed:", res.status);
+        return null;
+      }
+
+      // Auto login after register
+      return authService.login(email, password);
+    } catch (error) {
+      console.error("Register error:", error);
+      return null;
     }
-    return null;
-  },
-
-  register: (name: string, email: string, password: string): User | null => {
-    authService.init();
-    const users = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    
-    if (users.find((u: User) => u.email === email)) {
-      return null; // User exists
-    }
-
-    const newUser: User = {
-      id: Date.now(),
-      name,
-      email,
-      password,
-      role: 'User', // Default role
-      status: 'Active'
-    };
-
-    users.push(newUser);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-    
-    // Auto login
-    const { password: _, ...sessionUser } = newUser;
-    localStorage.setItem(SESSION_KEY, JSON.stringify(sessionUser));
-    
-    return sessionUser;
   },
 
   logout: () => {
     localStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem(TOKEN_KEY);
   },
 
   getCurrentUser: (): User | null => {
@@ -72,33 +66,64 @@ export const authService = {
     return sessionStr ? JSON.parse(sessionStr) : null;
   },
 
+  getToken: (): string | null => {
+    return localStorage.getItem(TOKEN_KEY);
+  },
+
   // --- CRUD Methods for Admin ---
 
-  getAllUsers: (): User[] => {
-    authService.init();
-    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  getAllUsers: async (): Promise<User[]> => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return [];
+    try {
+      const res = await fetch(ENDPOINTS.ADMIN.USERS, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (res.ok) return res.json();
+    } catch (e) { console.error(e); }
+    return [];
   },
 
-  addUser: (user: Omit<User, 'id'>): User => {
-    const users = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    const newUser = { ...user, id: Date.now() };
-    users.push(newUser);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-    return newUser;
+  addUser: async (user: Omit<User, 'id'>): Promise<User | null> => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return null;
+    try {
+      const res = await fetch(ENDPOINTS.ADMIN.USERS, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      });
+      if (res.ok) return res.json();
+    } catch (e) { console.error(e); }
+    return null;
   },
 
-  updateUser: (updatedUser: User) => {
-    const users = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    const index = users.findIndex((u: User) => u.id === updatedUser.id);
-    if (index !== -1) {
-      users[index] = { ...users[index], ...updatedUser }; // Keep password if not updated in object
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-    }
+  updateUser: async (updatedUser: User) => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+    try {
+      await fetch(`${ENDPOINTS.ADMIN.USERS}/${updatedUser.id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updatedUser)
+      });
+    } catch (e) { console.error(e); }
   },
 
-  deleteUser: (id: number) => {
-    const users = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    const filtered = users.filter((u: User) => u.id !== id);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+  deleteUser: async (id: number) => {
+    const token = localStorage.getItem(TOKEN_KEY);
+    if (!token) return;
+    try {
+      await fetch(`${ENDPOINTS.ADMIN.USERS}/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+    } catch (e) { console.error(e); }
   }
 };

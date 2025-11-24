@@ -6,7 +6,7 @@ import { authService } from './authService';
 // API CONFIGURATION
 // ==========================================
 // Change this to your real backend URL when ready
-export const API_BASE_URL = "https://api.denoise.com/v1"; 
+export const API_BASE_URL = "/api";
 
 export const ENDPOINTS = {
   AUTH: {
