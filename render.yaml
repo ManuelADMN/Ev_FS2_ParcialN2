@@ -9,3 +9,4 @@ services:
     envVars:
       - key: JWT_SECRET
         generateValue: true
+    numInstances: 1
