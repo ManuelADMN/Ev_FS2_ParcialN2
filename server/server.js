@@ -3,7 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
+import crypto from 'crypto';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -261,7 +261,7 @@ app.get('/api/sensors', (req, res) => {
 app.post('/api/contact', (req, res) => {
   const { name, email, message } = req.body || {};
   if (!name || !email || !message) return res.status(400).json({ error: 'Missing fields' });
-  const item = { id: uuidv4(), name, email, message, ts: Date.now() };
+  const item = { id: crypto.randomUUID(), name, email, message, ts: Date.now() };
   messages.push(item);
   res.status(201).json({ ok: true, id: item.id });
 });
