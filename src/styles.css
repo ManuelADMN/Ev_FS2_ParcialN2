@@ -1,0 +1,10 @@
+:root{
+  --color-primario:#0b7285;
+  --color-secundario:#15aabf;
+}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,'Noto Sans','Apple Color Emoji','Segoe UI Emoji'; background:#f8f9fa;}
+a{text-decoration:none}
+.navbar-brand b{color:var(--color-primario)}
+footer{background:#fff;border-top:1px solid #e9ecef;padding:1.5rem 0;margin-top:2rem}
+.card-blog:hover{transform:translateY(-2px);box-shadow:0 0.5rem 1rem rgba(0,0,0,.08);transition:.2s}
+.form-error{color:#c92a2a;font-size:.875rem;margin-top:.25rem}

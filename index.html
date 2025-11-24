@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Denoise - IA para Análisis Ambiental</title>
+    <script>
+      // Set theme before page renders to prevent flash of incorrect theme
+      if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              'google-blue': '#4285F4',
+              'google-red': '#EA4335',
+              'google-yellow': '#FBBC05',
+              'google-green': '#34A853',
+              'brand-black': '#000000',
+              'brand-white': '#ffffff',
+            },
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+            boxShadow: {
+              'hard': '4px 4px 0px 0px rgba(0,0,0,1)',
+              'hard-dark': '4px 4px 0px 0px rgba(255,255,255,1)',
+            },
+            keyframes: {
+              'slide-up': {
+                '0%': { transform: 'translateY(40px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              'pop-in': {
+                '0%': { transform: 'scale(0.9)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
+              },
+              'zoom-out': {
+                '0%': { transform: 'scale(1.15)', opacity: '0' },
+                '100%': { transform: 'scale(1)', opacity: '1' },
+              },
+              'slide-in-left': {
+                '0%': { transform: 'translateX(-50px)', opacity: '0' },
+                '100%': { transform: 'translateX(0)', opacity: '1' },
+              },
+              'slide-in-right': {
+                '0%': { transform: 'translateX(50px)', opacity: '0' },
+                '100%': { transform: 'translateX(0)', opacity: '1' },
+              },
+              'flip-in-x': {
+                '0%': { transform: 'perspective(400px) rotateX(90deg)', opacity: '0' },
+                '100%': { transform: 'perspective(400px) rotateX(0deg)', opacity: '1' },
+              },
+              'blur-in': {
+                '0%': { filter: 'blur(10px)', opacity: '0', transform: 'scale(0.98)' },
+                '100%': { filter: 'blur(0)', opacity: '1', transform: 'scale(1)' },
+              }
+            },
+            animation: {
+              'slide-up': 'slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'pop-in': 'pop-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'zoom-out': 'zoom-out 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'slide-in-left': 'slide-in-left 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'slide-in-right': 'slide-in-right 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'flip-in-x': 'flip-in-x 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              'blur-in': 'blur-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            }
+          },
+        },
+      };
+    </script>
+    <style>
+      /* Custom 3D Transform Utilities for Flip Cards */
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+      .transform-style-3d {
+        transform-style: preserve-3d;
+      }
+      .backface-hidden {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+      }
+      .rotate-y-180 {
+        transform: rotateY(180deg);
+      }
+      /* Trigger rotation on group hover */
+      .group:hover .group-hover\:rotate-y-180 {
+        transform: rotateY(180deg);
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.0/client",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
+    "react/jsx-runtime": "https://aistudiocdn.com/react@^19.2.0/jsx-runtime",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@heroicons/react/": "https://aistudiocdn.com/@heroicons/react@^2.2.0/",
+    "react-router-dom": "https://esm.sh/react-router-dom@6.22.3?external=react,react-dom",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "vite": "https://aistudiocdn.com/vite@^7.2.4",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-brand-white dark:bg-brand-black">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
