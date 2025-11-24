@@ -108,13 +108,21 @@ app.post('/api/auth/register', (req, res) => {
 
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body || {};
+  console.log('Login attempt:', email, password);
   const user = users.find(u => u.email === email);
-  if (!user) return res.status(401).json({ error: 'Invalid credentials' });
+  if (!user) {
+    console.log('User not found');
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
 
   const ok = bcrypt.compareSync(password || '', user.passwordHash);
-  if (!ok) return res.status(401).json({ error: 'Invalid credentials' });
+  if (!ok) {
+    console.log('Password mismatch');
+    return res.status(401).json({ error: 'Invalid credentials' });
+  }
 
   const token = jwt.sign({ id: user.id, role: user.role, email: user.email, name: user.name }, JWT_SECRET, { expiresIn: '8h' });
+  console.log('Login success for:', user.email);
 
   const { passwordHash: _, ...userResponse } = user;
   res.json({ token, user: userResponse });
@@ -122,6 +130,28 @@ app.post('/api/auth/login', (req, res) => {
 
 app.get('/api/auth/profile', authRequired, (req, res) => {
   const u = users.find(x => x.id === req.user.id);
+  if (!u) return res.status(404).json({ error: 'Not found' });
+  const { passwordHash: _, ...rest } = u;
+  res.json(rest);
+});
+
+// ===== Users (Admin) =====
+app.get('/api/users', authRequired, adminOnly, (req, res) => {
+  console.log('GET /api/users called by', req.user.email);
+  res.json(users.map(({ passwordHash, ...rest }) => rest));
+});
+
+app.get('/api/users/:id', authRequired, adminOnly, (req, res) => {
+  const u = users.find(x => x.id === Number(req.params.id));
+  if (!u) return res.status(404).json({ error: 'Not found' });
+  const { passwordHash, ...rest } = u;
+  res.json(rest);
+});
+
+app.post('/api/users', authRequired, adminOnly, (req, res) => {
+  console.log('POST /api/users called', req.body);
+  const { name, email, password, role = 'User', run } = req.body || {};
+  if (!name || !email || !password) return res.status(400).json({ error: 'Missing fields' });
   if (users.some(u => u.email === email)) return res.status(409).json({ error: 'Email exists' });
 
   const id = users.length ? Math.max(...users.map(u => u.id)) + 1 : 1;
@@ -129,16 +159,25 @@ app.get('/api/auth/profile', authRequired, (req, res) => {
   const newUser = { id, name, email, passwordHash, role, status: 'Active', run: run || '' };
   users.push(newUser);
   const { passwordHash: _, ...rest } = newUser;
+  console.log('User created:', newUser);
   res.status(201).json(rest);
 });
 
 app.put('/api/users/:id', authRequired, adminOnly, (req, res) => {
   const idx = users.findIndex(x => x.id === Number(req.params.id));
   if (idx === -1) return res.status(404).json({ error: 'Not found' });
-  const { name, email, role, status } = req.body || {};
 
-  users[idx] = { ...users[idx], ...req.body }; // Simple merge, be careful with password
-  // Re-hash password if provided? For now assume no password update here or handle separately
+  const { name, email, role, status, password } = req.body || {};
+
+  // Prepare update object
+  const updateData = { ...users[idx], name, email, role, status };
+
+  // Only update password if provided and not empty
+  if (password && password.trim() !== '') {
+    updateData.passwordHash = bcrypt.hashSync(password, 10);
+  }
+
+  users[idx] = updateData;
 
   const { passwordHash, ...rest } = users[idx];
   res.json(rest);
@@ -154,7 +193,6 @@ app.delete('/api/users/:id', authRequired, adminOnly, (req, res) => {
 
 // ===== Blogs =====
 app.get('/api/blogs', (req, res) => res.json(blogs));
-// ... (simplified blogs for brevity, assuming frontend doesn't use them heavily yet or uses same structure)
 
 // ===== Extra Data (Projects, Team, System) =====
 const projects = [

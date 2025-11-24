@@ -22,7 +22,7 @@ export const ENDPOINTS = {
     SYSTEM_STATUS: `${API_BASE_URL}/system/status`,
   },
   ADMIN: {
-    USERS: `${API_BASE_URL}/admin/users`,
+    USERS: `${API_BASE_URL}/users`,
   }
 };
 
