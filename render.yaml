@@ -2,6 +2,7 @@ services:
   - type: web
     name: denoise-app
     env: node
+    branch: deploy-fix
     buildCommand: npm install && npm run build
     startCommand: npm start
     envVars:
