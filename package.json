@@ -1,46 +1,25 @@
 {
-  "name": "denoise-react-webpack",
-  "version": "2.0.0",
+  "name": "denoise---corporate-landing-page",
   "private": true,
-  "description": "Aplicación React de Denoise (Bluetech AI) con Webpack + Babel, CRUD, roles y pruebas Jasmine/Karma.",
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "webpack serve --mode development --open",
-    "build": "webpack --mode production",
-    "preview": "npx http-server dist -o",
-    "start": "node server/server.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "browserslist": [
-    "defaults"
-  ],
   "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "bootstrap": "^5.3.3",
-    "cors": "^2.8.5",
-    "express": "^5.1.0",
-    "helmet": "^8.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
-    "uuid": "^13.0.0"
+    "react-dom": "^19.2.0",
+    "react": "^19.2.0",
+    "@heroicons/react": "^2.2.0",
+    "react-router-dom": "6.22.3",
+    "vite": "^7.2.4",
+    "@vitejs/plugin-react": "^5.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.7",
-    "@babel/preset-env": "^7.25.7",
-    "@babel/preset-react": "^7.25.7",
-    "babel-loader": "^9.2.1",
-    "css-loader": "^7.1.2",
-    "html-webpack-plugin": "^5.6.3",
-    "jasmine-core": "^5.12.0",
-    "karma": "^6.4.4",
-    "karma-chrome-launcher": "^3.2.0",
-    "karma-jasmine": "^5.1.0",
-    "style-loader": "^4.0.0",
-    "webpack": "^5.95.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.1.0"
-  },
-  "engines": {
-    "node": "20.x"
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
   }
 }

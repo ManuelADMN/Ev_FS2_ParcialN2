@@ -1,40 +1,20 @@
-# Denoise – Bluetech AI (React + Webpack)
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-Aplicación SPA en **React** para **Denoise** (Ciencia de Datos e IA, foco Bluetech). Incluye:
-- Páginas: Home, Nosotros (DenoiseSH, DenoQ, Oddie), Blogs (>=2), Contacto, Tests (Verificación de test's aplicados).
-- Autenticación (Login/Logout) y **CRUD de usuarios** con **roles** (Administrador, Vendedor, Cliente).
-- **Validaciones**: RUN (módulo 11) y **correos solo** `@denoise.*` o `@duocuc.*`.
-- Diseño **responsivo** (Bootstrap) y componentes estilo Atomic Design.
-- **Pruebas unitarias** con **Jasmine/Karma** en carpeta separada (`/tests`).
+# Run and deploy your AI Studio app
 
-## Requisitos
-- Node.js 18+ y Google Chrome (para ChromeHeadless en pruebas).
+This contains everything you need to run your app locally.
 
-## Instalación y ejecución (App React)
-```bash
-npm install
-npm run dev        # abre http://localhost:5173
-npm run build      # genera /dist
-npm run preview    # sirve /dist
-```
+View your app in AI Studio: https://ai.studio/apps/drive/1TZW8nR-NsB8uHCTijDNCWECE94U_V2Du
 
-## Credenciales de ejemplo
-- **Administrador**: `admin@denoise.com` / `admin123`
+## Run Locally
 
-## Estructura
-```
-/src (React)
-  /components (atoms, molecules, organisms, pages)
-  /context (AuthContext)
-  /routes (RutaPrivada)
-  /utils (validaciones, almacenamiento, datosBlogs)
-/tests (Jasmine + Karma, aislado)
-/docs (ERS y cobertura de tests)
-```
+**Prerequisites:**  Node.js
 
-## Pruebas (Jasmine/Karma)
-```bash
-cd tests
-npm install
-npm test
-```
+
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
